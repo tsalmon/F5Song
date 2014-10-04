@@ -9,26 +9,26 @@ namespace F5Song
 {
     class F5SongClass
     {
-        private static List<TagLib.File>    songs;
-        private static bool                 arg_text;
-        private static string               arg_begin;
-        private static string               arg_end;
-        private static int                  arg_incTrack;
-        private static string[]             arg_involvedartist;
-        private static string               arg_albumartist;
-        private static string               arg_year;
-        private static string[]             arg_genre;
-        private static string               arg_album_name;
-        private static string               arg_album_path;
+        private static List<TagLib.File> songs;
+        private static bool arg_text;
+        private static string arg_begin;
+        private static string arg_end;
+        private static int arg_incTrack;
+        private static string[] arg_involvedartist;
+        private static string arg_albumartist;
+        private static string arg_year;
+        private static string[] arg_genre;
+        private static string arg_album_name;
+        private static string arg_album_path;
 
         public static void help()
-        {               
+        {
             Console.WriteLine("F5Song - un programme pour editer les mp3");
-            
+
             Console.WriteLine("Argument obligatoire");
             Console.WriteLine("<path album>");
-            
-            Console.WriteLine("Arguments de selection"); 
+
+            Console.WriteLine("Arguments de selection");
             Console.WriteLine("[-begin=X] debut des numeros de mp3 selectionées");
             Console.WriteLine("[-end=Y] fin des numeros de mp3 selectionnées");
 
@@ -42,13 +42,15 @@ namespace F5Song
             return words;
         }
 
-        private static bool setArguments(string arg_var){
+        private static bool setArguments(string arg_var)
+        {
             string[] words = arg_var.Split('=');
-            if(words.Length != 2){
+            if (words.Length != 2)
+            {
                 Console.WriteLine("Argument invalide : " + arg_var);
                 return false;
             }
-            switch(words[0])
+            switch (words[0])
             {
                 case "-b":
                 case "-begin":
@@ -80,7 +82,7 @@ namespace F5Song
                     break;
                 case "-y":
                 case "-year":
-                    arg_year = words[1];          
+                    arg_year = words[1];
                     break;
                 case "-g":
                 case "-genre":
@@ -96,9 +98,9 @@ namespace F5Song
         private static bool parseArguments(string[] args)
         {
             arg_album_path = args[0];
-            for (int i = 1; i<args.Length; i++)
+            for (int i = 1; i < args.Length; i++)
             {
-                if(!setArguments(args[i]))
+                if (!setArguments(args[i]))
                 {
                     Console.WriteLine("Cet argument n'existe pas");
                     return false;
@@ -120,20 +122,20 @@ namespace F5Song
 
                 DirectoryInfo album = null;
                 songs = new List<TagLib.File>();
-                
+
                 try
                 {
-                    album = new DirectoryInfo(args[0]);                    
+                    album = new DirectoryInfo(args[0]);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("The process failed: {0}", e.ToString());
                 }
                 openAlbum(album);
-                
-                printAlbum();           
+
+                printAlbum();
             }
-       
+
         }
 
         private static bool allSameAlbumTitle()
@@ -151,8 +153,9 @@ namespace F5Song
             try //prevent access denied
             {
                 foreach (FileInfo file in path_album.GetFiles())
-                {                   
-                    if(file.Extension != ".mp3"){
+                {
+                    if (file.Extension != ".mp3")
+                    {
                         continue;
                     }
                     songs.Add(TagLib.File.Create(file.FullName));
@@ -166,14 +169,16 @@ namespace F5Song
 
         private static string composeString(string[] array_string, string sep)
         {
-            if(array_string.Length == 0){
+            if (array_string.Length == 0)
+            {
                 return "";
             }
 
             string return_string = array_string[0];
             for (int i = 1; i < array_string.Length; i++)
             {
-                if(array_string[i] == ""){
+                if (array_string[i] == "")
+                {
                     continue;
                 }
                 return_string += sep + array_string[i];
@@ -183,15 +188,15 @@ namespace F5Song
 
         private static void printAlbum()
         {
-           /* if (songs == null)
-            {
-                Console.WriteLine("empty");
-                return;
-            }*/
+            /* if (songs == null)
+             {
+                 Console.WriteLine("empty");
+                 return;
+             }*/
             Console.WriteLine("Id\tSong\tBand\ttime");
 
 
-            foreach(TagLib.File song in songs)
+            foreach (TagLib.File song in songs)
             {
                 Console.WriteLine(songs.Count);
                 string[] infos = new string[11];
@@ -210,13 +215,13 @@ namespace F5Song
 
                 infos[8] = composeString(song.Tag.Performers, ";");
                 infos[9] = composeString(song.Tag.Genres, ";");
-                infos[10] = ""+song.Tag.Track;
+                infos[10] = "" + song.Tag.Track;
 
 
                 Console.WriteLine(composeString(infos, "\t"));
 
             }
-            
+
         }
     }
 }

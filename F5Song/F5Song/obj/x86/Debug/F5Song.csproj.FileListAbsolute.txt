@@ -1,0 +1,7 @@
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Debug\F5Song.exe.config
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Debug\F5Song.exe
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Debug\F5Song.pdb
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Debug\taglib-sharp.dll
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Debug\F5Song.csprojResolveAssemblyReference.cache
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Debug\F5Song.exe
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Debug\F5Song.pdb
