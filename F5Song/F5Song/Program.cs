@@ -13,10 +13,10 @@ namespace F5Song
         private static bool arg_text;
         private static string arg_begin;
         private static string arg_end;
-        private static int arg_incTrack;
+        private static uint arg_incTrack;
         private static string[] arg_involvedartist;
         private static string arg_albumartist;
-        private static string arg_year;
+        private static uint arg_year;
         private static string[] arg_genre;
         private static string arg_album_name;
         private static string arg_album_path;
@@ -33,7 +33,7 @@ namespace F5Song
             Console.WriteLine("[-end=Y] fin des numeros de mp3 selectionnées");
 
             Console.WriteLine("Arguments optionels");
-            Console.WriteLine("[-track=A] [-text] [-involved=] [-albumartist=] [-year=] [-genre=]");
+            Console.WriteLine("[-inctrack=A] [-text] [-involved=] [-albumartist=] [-year=] [-genre=]");
         }
 
         private static string[] stringToArray(string str, char sep)
@@ -62,7 +62,7 @@ namespace F5Song
                     break;
                 case "-t":
                 case "-track":
-                    arg_incTrack = Convert.ToInt32(words[1]);
+                    arg_incTrack = Convert.ToUInt32(words[1]);
                     break;
                 case "-txt":
                 case "-text":
@@ -82,7 +82,7 @@ namespace F5Song
                     break;
                 case "-y":
                 case "-year":
-                    arg_year = words[1];
+                    arg_year = Convert.ToUInt32(words[1]);
                     break;
                 case "-g":
                 case "-genre":
@@ -111,32 +111,120 @@ namespace F5Song
 
         static void Main(string[] args)
         {
-
-            if (args.Length < 1)
+            if ((args.Length < 1) || (!parseArguments(args)))
             {
                 help();
             }
             else
             {
-                parseArguments(args);
+                initF5Song();
+            }
+        }
 
-                DirectoryInfo album = null;
-                songs = new List<TagLib.File>();
+        private static void initF5Song()
+        {
 
-                try
-                {
-                    album = new DirectoryInfo(args[0]);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("The process failed: {0}", e.ToString());
-                }
-                openAlbum(album);
+            DirectoryInfo album = null;
+            songs = new List<TagLib.File>();
 
-                printAlbum();
+            try
+            {
+                album = new DirectoryInfo(arg_album_path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
             }
 
+            openAlbum(album);
+            setAlbum();
+
         }
+
+        private static void setAlbum()
+        {
+            if(arg_incTrack > 0)
+            {
+                setTrack();
+            }
+            if(arg_involvedartist != null)
+            {
+                setInvolvedArtist();
+            }
+            if (arg_album_name !=null)
+            {
+                setAlbumName();
+            }
+            if(arg_year != 0)
+            {
+                setYear();
+            }
+            if (arg_genre != null)
+            {
+                setGenre();
+            }
+            /*
+             if (arg_albumartist != null)
+             * {
+             *       setInvolvedArtist();
+            *    }
+            */
+            foreach (TagLib.File song in songs)
+            {
+                song.Save();
+            } 
+        }
+
+        private static void setInvolvedArtist()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.AlbumArtists = arg_involvedartist;
+            }
+        }
+
+        private static void setYear()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.Year = arg_year ;
+            }
+        }
+
+        private static void setGenre()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.Genres = arg_genre;
+            }
+        }
+
+        private static void setAlbumName()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.Album = arg_album_name;
+            }
+        }
+
+        /* read only error
+        private static void setInvolvedArtist()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.JoinedComposers = arg_albumartist;
+            }
+        }
+        */
+
+        private static void setTrack()
+        {
+            foreach (TagLib.File song in songs)
+            {
+                song.Tag.Track = song.Tag.Track + arg_incTrack;                
+            }            
+        }
+
 
         private static bool allSameAlbumTitle()
         {

@@ -4,3 +4,4 @@ C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Release\F5Song.pdb
 C:\wamp\www\GitHub\F5Song\F5Song\F5Song\bin\Release\taglib-sharp.dll
 C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Release\F5Song.exe
 C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Release\F5Song.pdb
+C:\wamp\www\GitHub\F5Song\F5Song\F5Song\obj\x86\Release\F5Song.csprojResolveAssemblyReference.cache
