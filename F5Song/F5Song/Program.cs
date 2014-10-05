@@ -226,15 +226,7 @@ namespace F5Song
         }
 
 
-        private static bool allSameAlbumTitle()
-        {
-            return true;
-        }
 
-        private static bool allSameBand()
-        {
-            return true;
-        }
 
         private static void openAlbum(DirectoryInfo path_album)
         {
